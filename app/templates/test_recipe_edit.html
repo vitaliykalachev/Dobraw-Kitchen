@@ -1,0 +1,36 @@
+<form hx-put="/test_2" hx-target="this" hx-swap="outerHTML">
+
+    <table>
+        <colgroup>
+            <col span="2" style="background:Khaki">
+            <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
+            <col style="background-color:LightCyan"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
+        </colgroup>
+        <tr>
+            <th>№</th>
+            <th>Наименование</th>
+            <th>Вес (гр)</th>
+        </tr>
+
+        <tr>
+            <td>1</td>
+            <td>Какао порошок</td>
+            <td>
+                <div class="form-group"> <input type="text" name="firstName" value="{{firstName}}"></div>
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Какао масло</td>
+            <td>
+                <div class="form-group"> <input type="text" name="lastName" value="{{lastName}}"></div>
+            </td>
+        </tr>
+
+
+
+    </table>
+
+    <button class="btn">Submit</button>
+    <button class="btn" hx-get="/test_2">Cancel</button>
+</form>

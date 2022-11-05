@@ -1,15 +1,15 @@
 <form hx-put="/test_1" hx-target="this" hx-swap="outerHTML">
     <div>
       <label>First Name</label>
-      <input type="text" name="firstName" value="Joe">
+      <input type="text" name="firstName" value={{firstName}}>
     </div>
     <div class="form-group">
       <label>Last Name</label>
-      <input type="text" name="lastName" value="Blow">
+      <input type="text" name="lastName" value="{{lastName}}">
     </div>
     <div class="form-group">
       <label>Email Address</label>
-      <input type="email" name="email" value="joe@blow.com">
+      <input type="email" name="email" value="{{email}}">
     </div>
     <button class="btn">Submit</button>
     <button class="btn" hx-get="/test_1">Cancel</button>

@@ -1,6 +1,6 @@
 from crypt import methods
 import email
-from fastapi import FastAPI, APIRouter, Request, Depends, responses, status, Response
+from fastapi import FastAPI, APIRouter, Request, Depends, responses, status, Response, Form
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from fastapi.staticfiles import StaticFiles
@@ -58,20 +58,35 @@ async def register(request: Request):
 
 
 @router.get("/test_1_edit", response_class=HTMLResponse)
-def contact_edit(request: Request):
-    return templates.TemplateResponse("test_1_edit.html", {"request": request})
+async def contact_edit(request: Request, firstName = "Vitaliy", lastName = "Kala4", email = "email@mail.com"):
+    return templates.TemplateResponse("test_1_edit.html", {"request": request, "firstName": firstName, "lastName":lastName, "email": email})
+    
+@router.get("/test_recipe_edit", response_class=HTMLResponse)
+async def contact_edit(request: Request, firstName = "23", lastName = "123"):
+    return templates.TemplateResponse("test_recipe_edit.html", {"request": request, "firstName": firstName, "lastName":lastName})
+        
     
 @router.get("/test_1", response_class=HTMLResponse)
-def contact_edit(request: Request):
-    return templates.TemplateResponse("test_1.html", {"request": request})
+async def contact_edit(request: Request, firstName = "Vitaliy", lastName = "Kala4", email = "email@mail.com"):
+    firstName = firstName
+    # lastName = "Kala4"
+    # email = "kala4@mail.com"
+    return templates.TemplateResponse("test_1.html", {"request": request, "firstName": firstName, "lastName":lastName, "email": email})
+        
+@router.get("/test_2", response_class=HTMLResponse)
+async def contact_edit(request: Request, firstName = "123", lastName = "33"):
+    
+    return templates.TemplateResponse("test_2.html", {"request": request, "firstName": firstName, "lastName":lastName})
         
 
 @router.put("/test_1", response_class=HTMLResponse)
-def contact_edit(request: Request, firstName = str, lastName = str, email = str ):
-    
+async def contact_edit(request: Request, firstName: str = Form(), lastName: str = Form(), email: str = Form()):
     return templates.TemplateResponse("test_1.html", {"request": request, "firstName": firstName, "lastName":lastName, "email": email})
     
-
+@router.put("/test_2", response_class=HTMLResponse)
+async def contact_edit(request: Request, firstName: str = Form(), lastName: str = Form()):
+    return templates.TemplateResponse("test_2.html", {"request": request, "firstName": firstName, "lastName":lastName})
+    
 # @router.post("/register")
 # async def register(request: Request, db: Session = Depends(get_db)):
 #     form = await request.form()

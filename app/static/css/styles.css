@@ -25,6 +25,7 @@ p {
 }
 
 table {
+    
     width: 95%; /* Ширина таблицы */
     
     font-size: 19px;
@@ -32,11 +33,13 @@ table {
    }
 
 td {
+    
     border: 1px solid black; /* Рамка вокруг ячеек */
+    
    }
 
 th {
-    text-align: center;
+    
     background-color: white; 
     font-weight:bold; 
 }
