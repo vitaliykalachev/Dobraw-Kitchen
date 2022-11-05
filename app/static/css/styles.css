@@ -1,0 +1,86 @@
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+
+}
+
+
+h1 {
+    color: black;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+p {
+    
+    width: 95%;
+    
+    font-weight: light;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+table {
+    width: 95%; /* Ширина таблицы */
+    
+    font-size: 19px;
+    margin-left: 10px;
+   }
+
+td {
+    border: 1px solid black; /* Рамка вокруг ячеек */
+   }
+
+th {
+    text-align: center;
+    background-color: white; 
+    font-weight:bold; 
+}
+.row {
+    display: flex;
+}
+
+.column {
+    
+    flex: 50%;
+}
+
+.img {
+    margin-top: 67px;
+    width: 50%;
+}
+
+
+
+/* Responsive layout - when the screen is less than 600px wide, make the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+    
+}
+/* ============ desktop view ============ */
+@media all and (min-width: 401px) {
+	.dropdown-menu li{ position: relative; 	}
+    .dropdown-menu .dropdown-menu{
+        margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+    }
+    
+	
+    
+	
+}	
+/* ============ desktop view .end// ============ */
+
+/* ============ small devices ============ */
+@media (max-width: 400px) {
+  .dropdown-menu .dropdown-menu{
+      margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+  }
+}	
+/* ============ small devices .end// ============ */
+

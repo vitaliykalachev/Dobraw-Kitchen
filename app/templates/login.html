@@ -1,0 +1,48 @@
+{% extends "/base.html" %}
+
+
+{% block title %} 
+  <title>Login</title>
+
+
+{% endblock %} 
+
+{% block content %} 
+<div class="container">
+<h1>Login</h1>
+    {% if message %}
+    <div class="alert alert-success allert-dissmisable fade show" role="alert">
+        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close" data-bs-target="#my-alert" data-bs-dismiss="alert"></button>
+            {{message}}
+      </div>
+    {% endif %}
+{% for error in errors %}
+<div class="alert alert-danger allert-dissmisable fade show" role="alert">
+    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close" data-bs-target="#my-alert" data-bs-dismiss="alert"></button>
+        {{error}}
+        
+  </div>
+    
+{% endfor %}
+<form method="POST">
+    <div class="mb-3">
+      <label for="username" class="form-label">Email address</label>
+      <input type="email" required class="form-control" name="username" aria-describedby="emailHelp" placeholder="Email">
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" required class="form-control" name="password" placeholder="Password">
+    </div>
+    <div>
+    <button type="submit" class="btn btn-primary">Login</button>
+    </div>
+</form>
+
+</div>
+
+
+
+{% endblock %} 
+
+
+
