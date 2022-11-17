@@ -11,23 +11,25 @@ SQLALCHEMY_DATABASE_URL = f'postgresql://{settings.database_username}:{settings.
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-Sessionlocal = sessionmaker(autocommit=False, autoflush=False, bind = engine)
+Sessionlocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
 
 # Dependency
+
+
 def get_db():
     db = Sessionlocal()
     try:
         yield db
     finally:
         db.close()
-        
+
 
 # while True:
-    
+
 #     try:
-#         conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres', 
+#         conn = psycopg2.connect(host='localhost', database='fastapi', user='postgres',
 #                                 password="uf,hjlbf,fp926", cursor_factory=RealDictCursor)
 #         cursor = conn.cursor()
 #         print("Database connection was successfull!")
@@ -36,4 +38,3 @@ def get_db():
 #         print("Connecting to database failed")
 #         print("Error: ", error)
 #         time.sleep(2)
- 
