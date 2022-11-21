@@ -14,18 +14,16 @@ def get_user_by_email(db: Session, email: str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.User).offset(skip).limit(limit).all()
 
-# def get_recipe(db: Session, recipe_id: int):
-#     return db.query(models.Recipe).filter(models.Recipe.id == recipe_id).first()
+
 def get_recipe(db: Session, recipe_id: int):
     return db.query(models.Recipe).options(
         joinedload(models.Recipe.ingredients)).where(
             models.Recipe.id == recipe_id).first()
 
-    # db_book = db.query(Book).options(joinedload(Book.authors)).\
-#         where(Book.id == id).one()
 
-def get_recipes( db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Recipe).offset(skip).limit(limit).all()
+def get_recipes(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Recipe).options(joinedload(models.Recipe.ingredients)).offset(skip).limit(limit).all()
+
 
 def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.password
@@ -47,3 +45,10 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+# def create_user_recipe(db: Session, recipe: schemas.Recipe):
+#     db_item = models.Recipe(recipe)
+#     db.add(db_item)
+#     db.commit()
+#     db.refresh(db_item)
+#     return db_item

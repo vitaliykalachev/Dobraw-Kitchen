@@ -42,26 +42,20 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
-@app.get("/recipes/", response_model=schemas.RecipeSchema)
-def read_recipe(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+@app.get("/recipes/", response_model=list[schemas.RecipeSchema],
+        response_model_by_alias=False)
+def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     recipes = crud.get_recipes(db, skip=skip, limit=limit)
     return recipes
 
 
 @app.get("/recipes/{recipe_id}", response_model=schemas.RecipeSchema,
-         response_model_exclude={'description'}, response_model_by_alias=False)
+        response_model_by_alias=False)
 def get_recipe(recipe_id: int, db: Session = Depends(get_db)):
     db_recipe = crud.get_recipe(db, recipe_id=recipe_id)
     if db_recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
     return db_recipe
-
-# @app.get("/books/{id}", response_model=BookSchema,
-#          response_model_exclude={'blurb'}, response_model_by_alias=False)
-# async def get_book(id: int, db: Session = Depends(get_db)):
-#     db_book = db.query(Book).options(joinedload(Book.authors)).\
-#         where(Book.id == id).one()
-#     return db_book
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)
@@ -77,6 +71,13 @@ def create_item_for_user(
     user_id: int, item: schemas.ItemCreate, db: Session = Depends(get_db)
 ):
     return crud.create_user_item(db=db, item=item, user_id=user_id)
+
+
+# @app.post("/users/{user_id}/recipes/", response_model=schemas.RecipeCreate)
+# def create_recipe_for_user(
+#      recipe: schemas.RecipeCreate, db: Session = Depends(get_db)
+# ):
+#     return crud.create_user_recipe(db=db, recipe=recipe)
 
 
 @app.get("/items/", response_model=list[schemas.Item])

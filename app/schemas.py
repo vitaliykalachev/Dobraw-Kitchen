@@ -63,3 +63,5 @@ class RecipeSchema(Recipe):
 class IngredientSchema(Ingredient):
     recipes: List[Recipe]
 
+class RecipeCreate(RecipeSchema):
+    pass

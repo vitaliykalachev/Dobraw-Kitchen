@@ -2,7 +2,7 @@ from enum import unique
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
-from app.routers.template import index
+
 
 from .database import Base
 
@@ -36,12 +36,14 @@ class Recipe(Base):
     description = Column(String, index=True)
     ingredients = relationship("IngredientOfRecipe", back_populates="recipe")
     
+    
 class Ingredient(Base):
     __tablename__ = "ingredients"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, index=True)
     recipes = relationship("IngredientOfRecipe",  back_populates="ingredient")
+    
     
 class IngredientOfRecipe(Base):
     __tablename__ = "ingredientsofrecipes"

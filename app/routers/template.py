@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
-
+from .. import crud
 
 
 # class Data(BaseModel):
@@ -42,6 +42,18 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/")
 async def index(request: Request, message: str = None):
     return templates.TemplateResponse("index.html", {"request": request, "message": message})
+
+@router.get("/recipe", response_class=HTMLResponse)
+async def recipe(request: Request, id = str, recipe = crud.get_recipe):
+    
+    return templates.TemplateResponse("recipe.html", {"request": request, "id": id, "recipe": recipe})
+
+
+   
+@router.get("/sweets/bakery/dzen", response_class=HTMLResponse)
+async def recipe(request: Request, id = str):
+    return templates.TemplateResponse("/sweets/bakery/dzen.html", {"request": request, "id": id})
+    
 
 @router.post("/clicked")
 async def index(request: Request, message: str = None):
@@ -123,70 +135,6 @@ async def contact_edit(request: Request, firstName: str = Form(), lastName: str 
 
 
 
-@router.get("/test2")
-async def test2(request: Request):
-    return templates.TemplateResponse("test2.html", {"request": request})
-
-@router.put("/test2")
-async def test2(request: Request):
-    return templates.TemplateResponse("test2.html", {"request": request})
-
-@router.get("/test1")
-async def test1(request: Request):
-    return templates.TemplateResponse("test1.html", {"request": request})
-
-
-@router.get("/sweets/bakery")
-async def bakery(request: Request):
-    return templates.TemplateResponse("sweets/bakery.html", {"request": request})
-
-@router.get("/sweets/candy")
-async def candy(request: Request):
-    return templates.TemplateResponse("sweets/candy.html", {"request": request})
-
-@router.get("/sweets/frozen_dessert")
-async def frozen_dessert(request: Request):
-    return templates.TemplateResponse("sweets/frozen_dessert.html", {"request": request})
-
-@router.get("/sweets/icecream")
-async def icecream(request: Request):
-    return templates.TemplateResponse("sweets/icecream.html", {"request": request})
-
-@router.get("/sweets/other_sweet")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/other_sweet.html", {"request": request})
-
-@router.get("/sweets/bakery/choco_cookie")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/choco_cookie.html", {"request": request})
-
-@router.get("/sweets/bakery/coconut_keks")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/coconut_keks.html", {"request": request})
-
-@router.get("/sweets/bakery/dzen")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/dzen.html", {"request": request})
-
-@router.get("/sweets/bakery/evas_cookie")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/evas_cookie.html", {"request": request})
-
-@router.get("/sweets/bakery/opera")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/opera.html", {"request": request})
-
-@router.get("/sweets/bakery/shokobomba")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/shokobomba.html", {"request": request})
-
-@router.get("/sweets/bakery/tartaten")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/tartaten.html", {"request": request})
-
-@router.get("/sweets/bakery/tiramisu")
-async def other_sweet(request: Request):
-    return templates.TemplateResponse("sweets/bakery/tiramisu.html", {"request": request})
 
 @router.get("/code")
 async def other_sweet(request: Request):
@@ -198,6 +146,6 @@ async def read_item(item_id):
 
 
 
-@router.get("/vegan_raw/example_vegan_raw")
-async def vegan(request: Request):
-    return templates.TemplateResponse("/vegan_raw/example_vegan_raw.html", {"request": request})
+# @router.get("/vegan_raw/example_vegan_raw")
+# async def vegan(request: Request):
+#     return templates.TemplateResponse("/vegan_raw/example_vegan_raw.html", {"request": request})
