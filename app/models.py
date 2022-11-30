@@ -34,19 +34,19 @@ class Recipe(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
-    ingredients = relationship("IngredientOfRecipe", back_populates="recipe")
-    
+    ingredients = relationship("IngredientPartRecipe", back_populates="recipe")
+    recipepart = relationship('RecipePart', back_populates = 'recipepart')
     
 class Ingredient(Base):
     __tablename__ = "ingredients"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, index=True)
-    recipes = relationship("IngredientOfRecipe",  back_populates="ingredient")
+    recipes = relationship("IngredientPartRecipe",  back_populates="ingredient")
     
     
-class IngredientOfRecipe(Base):
-    __tablename__ = "ingredientsofrecipes"
+class IngredientPartRecipe(Base):
+    __tablename__ = "ingredientspartsrecipes"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     recipe_id = Column(Integer, ForeignKey("recipes.id"), primary_key=True)
@@ -54,9 +54,18 @@ class IngredientOfRecipe(Base):
     weight = Column(Integer, index=True)
     recipe = relationship("Recipe", back_populates="ingredients")
     ingredient = relationship("Ingredient", back_populates="recipes")
+    recipepart = relationship('RecipePart', back_populates = 'recipe')
     
     ingredient_title = association_proxy(target_collection='ingredient', attr='title')
     recipe_title = association_proxy(target_collection='recipe', attr='title')
+    recipepart_name = association_proxy(target_collection='recipepart', attr='name')
     
+class RecipePart(Base):
+    __tablename__ = "recipesparts"  
     
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    recipe_id = Column(Integer, ForeignKey("recipes.id"), primary_key=True)
+    name = Column(String, index=True)
+    recipe = relationship('IngredientPartRecipe', back_populates= 'recipepart')
+    recipes = relationship("Recipe", back_populates="recipepart")
     

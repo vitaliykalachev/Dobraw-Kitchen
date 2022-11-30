@@ -1,5 +1,7 @@
 from typing import Union
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session, joinedload
 from pydantic import BaseModel
@@ -10,6 +12,10 @@ from .database import Sessionlocal, engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 
+# from sqlalchemy.schema import DropTable
+# from sqlalchemy.ext.compiler import compiles
+
+
 
 app = FastAPI()
 
@@ -18,6 +24,13 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(template.router)
 
+templates = Jinja2Templates(directory="app/templates")
+
+# @compiles(DropTable, "ingredients")
+# def _compile_drop_table(element, compiler, **kwargs):
+#     return compiler.visit_drop_table(element) + " CASCADE"
+
+# _compile_drop_table()
 
 @app.get("/")
 def main_root():
@@ -42,20 +55,22 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
-@app.get("/recipes/", response_model=list[schemas.RecipeSchema],
+@app.get("/recipes/",response_model=list[schemas.RecipePartSchema],
         response_model_by_alias=False)
-def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     recipes = crud.get_recipes(db, skip=skip, limit=limit)
+    
     return recipes
 
 
-@app.get("/recipes/{recipe_id}", response_model=schemas.RecipeSchema,
+@app.get("/recipes/{recipe_id}",response_class=HTMLResponse, response_model=schemas.RecipeSchema,
         response_model_by_alias=False)
-def get_recipe(recipe_id: int, db: Session = Depends(get_db)):
+def get_recipe(request: Request, recipe_id: int, db: Session = Depends(get_db)):
     db_recipe = crud.get_recipe(db, recipe_id=recipe_id)
+    context = {"request": request, "recipe":db_recipe}
     if db_recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    return db_recipe
+    return templates.TemplateResponse("recipes.html", context)
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)

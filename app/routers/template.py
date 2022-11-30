@@ -43,16 +43,16 @@ templates = Jinja2Templates(directory="app/templates")
 async def index(request: Request, message: str = None):
     return templates.TemplateResponse("index.html", {"request": request, "message": message})
 
-@router.get("/recipe", response_class=HTMLResponse)
-async def recipe(request: Request, id = str, recipe = crud.get_recipe):
+# @router.get("/recipe", response_class=HTMLResponse)
+# async def recipe(request: Request, id = str):
     
-    return templates.TemplateResponse("recipe.html", {"request": request, "id": id, "recipe": recipe})
+#     return templates.TemplateResponse("recipe.html", {"request": request, "id": id})
 
 
    
 @router.get("/sweets/bakery/dzen", response_class=HTMLResponse)
-async def recipe(request: Request, id = str):
-    return templates.TemplateResponse("/sweets/bakery/dzen.html", {"request": request, "id": id})
+async def recipe(request: Request):
+    return templates.TemplateResponse("/sweets/bakery/dzen.html", {"request": request})
     
 
 @router.post("/clicked")

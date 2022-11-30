@@ -31,7 +31,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_active: bool
-    items: list[Item] = []
+    items: List[Item] = []
     
     class Config:
         orm_mode = True
@@ -57,11 +57,17 @@ class Recipe(BaseModel):
         allow_population_by_field_name = True
  
 
-class RecipeSchema(Recipe):
+
+        
+class RecipeSchema(BaseModel):
     ingredients: List[Ingredient]
     
+class RecipePartSchema(Recipe):
+    recipepart_name: List[RecipeSchema]
+    
+
+
+  
 class IngredientSchema(Ingredient):
     recipes: List[Recipe]
 
-class RecipeCreate(RecipeSchema):
-    pass
