@@ -22,7 +22,7 @@ def get_recipe(db: Session, recipe_id: int):
 
 
 def get_recipes(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Recipe).options(joinedload(models.Recipe.ingredients)).offset(skip).limit(limit).all()
+    return db.query(models.Recipe).options(joinedload(models.Recipe.recipepart_name)).offset(skip).limit(limit).all()
 
 
 def create_user(db: Session, user: schemas.UserCreate):

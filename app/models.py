@@ -35,15 +35,15 @@ class Recipe(Base):
     title = Column(String, index=True)
     description = Column(String, index=True)
     ingredients = relationship("IngredientPartRecipe", back_populates="recipe")
-    recipepart = relationship('RecipePart', back_populates = 'recipepart')
+    recipepart_name = relationship('IngredientPartRecipe', back_populates = 'recipepart')
     
 class Ingredient(Base):
     __tablename__ = "ingredients"
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, index=True)
-    recipes = relationship("IngredientPartRecipe",  back_populates="ingredient")
-    
+    recipesparts = relationship("IngredientPartRecipe",  back_populates="ingredient")
+    recipe_ingredient = relationship("IngredientPartRecipe", back_populates="ingredient_recipe")
     
 class IngredientPartRecipe(Base):
     __tablename__ = "ingredientspartsrecipes"
@@ -51,10 +51,15 @@ class IngredientPartRecipe(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     recipe_id = Column(Integer, ForeignKey("recipes.id"), primary_key=True)
     ingredient_id = Column(Integer, ForeignKey("ingredients.id"), primary_key=True)
+    recipepart_id = Column(Integer, ForeignKey("recipesparts.id"), primary_key=True)
     weight = Column(Integer, index=True)
     recipe = relationship("Recipe", back_populates="ingredients")
-    ingredient = relationship("Ingredient", back_populates="recipes")
-    recipepart = relationship('RecipePart', back_populates = 'recipe')
+    recipepart = relationship("Recipe", back_populates = "recipepart_name")
+    ingredient = relationship("Ingredient", back_populates="recipesparts")
+    ingredient_recipe = relationship("Ingredient", back_populates="recipe_ingredient")
+    recipepart_ingredient = relationship('RecipePart', back_populates = 'ingredients')
+    recipepart_recipe = relationship('RecipePart', back_populates = 'recipes')
+    
     
     ingredient_title = association_proxy(target_collection='ingredient', attr='title')
     recipe_title = association_proxy(target_collection='recipe', attr='title')
@@ -64,8 +69,7 @@ class RecipePart(Base):
     __tablename__ = "recipesparts"  
     
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    recipe_id = Column(Integer, ForeignKey("recipes.id"), primary_key=True)
     name = Column(String, index=True)
-    recipe = relationship('IngredientPartRecipe', back_populates= 'recipepart')
-    recipes = relationship("Recipe", back_populates="recipepart")
+    ingredients = relationship('IngredientPartRecipe', back_populates= 'recipepart_ingredient')
+    recipes = relationship("IngredientPartRecipe", back_populates="recipepart_recipe")
     

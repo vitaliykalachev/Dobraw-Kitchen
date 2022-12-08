@@ -52,22 +52,23 @@ class Recipe(BaseModel):
     description: str | None = None
     
     
+    
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
  
 
-
-        
+class RecipePart(Recipe):
+    name: str = Field(alias= 'recipepart_name')
+    
+   
+         
 class RecipeSchema(BaseModel):
     ingredients: List[Ingredient]
     
-class RecipePartSchema(Recipe):
-    recipepart_name: List[RecipeSchema]
+class RecipePartSchema(RecipePart):
+    recipepart_name: RecipeSchema
     
-
-
-  
 class IngredientSchema(Ingredient):
     recipes: List[Recipe]
 

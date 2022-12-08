@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
