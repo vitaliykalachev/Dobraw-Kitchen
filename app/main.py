@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from . import crud, models, schemas
 from .database import Sessionlocal, engine, get_db
 
-models.Base.metadata.create_all(bind=engine)
+models.Base.metadata.drop_all(bind=engine)
 
 # from sqlalchemy.schema import DropTable
 # from sqlalchemy.ext.compiler import compiles
@@ -55,22 +55,25 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
-@app.get("/recipes/",response_model=list[schemas.RecipePartSchema],
+@app.get("/recipes/",
+        # response_model=list[schemas.RecipeSchema],
         response_model_by_alias=False)
 async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     recipes = crud.get_recipes(db, skip=skip, limit=limit)
     
+    print("ПРИНТ " , [recipe.__dict__ for recipe in recipes] )
     return recipes
 
 
-@app.get("/recipes/{recipe_id}",response_class=HTMLResponse, response_model=schemas.RecipeSchema,
+@app.get("/recipes/{recipe_id}", 
+        response_model=schemas.RecipePartSchema,
         response_model_by_alias=False)
-def get_recipe(request: Request, recipe_id: int, db: Session = Depends(get_db)):
-    db_recipe = crud.get_recipe(db, recipe_id=recipe_id)
-    context = {"request": request, "recipe":db_recipe}
-    if db_recipe is None:
+def get_recipe( recipe_id: int, db: Session = Depends(get_db)):
+    recipe = crud.get_recipe(db, recipe_id=recipe_id)
+    print("ПРИНТ " , [recipe.__dict__ ] )
+    if recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    return templates.TemplateResponse("recipes.html", context)
+    return recipe
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)

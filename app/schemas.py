@@ -58,16 +58,21 @@ class Recipe(BaseModel):
         allow_population_by_field_name = True
  
 
-class RecipePart(Recipe):
-    name: str = Field(alias= 'recipepart_name')
-    
-   
-         
-class RecipeSchema(BaseModel):
+class RecipePart(BaseModel):
+    id: int = Field(alias= 'recipepart_id')
+    title: str = Field(alias= 'recipepart_title')
     ingredients: List[Ingredient]
-    
-class RecipePartSchema(RecipePart):
-    recipepart_name: RecipeSchema
+    class Config:
+        orm_mode = True
+        allow_population_by_field_name = True
+
+
+class RecipeSchema(Recipe):
+    pass   
+class RecipePartSchema(Recipe):
+    recipepart_ingredient: List[RecipePart]
+           
+
     
 class IngredientSchema(Ingredient):
     recipes: List[Recipe]
