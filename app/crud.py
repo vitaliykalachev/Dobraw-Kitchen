@@ -17,13 +17,24 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def get_recipe(db: Session, recipe_id: int):
     return db.query(models.Recipe).options(
-        joinedload(models.Recipe.recipepart_name)).where(
+
+        joinedload(models.Recipe.recipepart_ingredient)).where(
+
             models.Recipe.id == recipe_id).first()
 
 
 def get_recipes(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.Recipe).options(joinedload(models.Recipe.recipepart_name)).offset(skip).limit(limit).all()
+    return db.query(models.Recipe).options(joinedload(models.Recipe.recipepart_ingredient)).offset(skip).limit(limit).all()
 
+
+def create_recipe(db:Session, recipe: schemas.RecipeCreate):
+    recipe = models.Recipe(title=recipe.title, description=recipe.description
+                           
+                           )
+    db.add(recipe)
+    db.commit()
+    db.refresh(recipe)
+    return recipe
 
 def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.password
