@@ -25,6 +25,15 @@ def get_recipes(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Recipe).options(joinedload(models.Recipe.recipepart_ingredient)).offset(skip).limit(limit).all()
 
 
+def create_recipe(db:Session, recipe: schemas.RecipeCreate):
+    recipe = models.Recipe(title=recipe.title, description=recipe.description
+                           
+                           )
+    db.add(recipe)
+    db.commit()
+    db.refresh(recipe)
+    return recipe
+
 def create_user(db: Session, user: schemas.UserCreate):
     fake_hashed_password = user.password
     db_user = models.User(

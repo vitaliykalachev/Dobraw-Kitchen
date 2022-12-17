@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from . import crud, models, schemas
 from .database import Sessionlocal, engine, get_db
 
-models.Base.metadata.drop_all(bind=engine)
+models.Base.metadata.create_all(bind=engine)
 
 # from sqlalchemy.schema import DropTable
 # from sqlalchemy.ext.compiler import compiles
@@ -56,21 +56,21 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return users
 
 @app.get("/recipes/",
-        # response_model=list[schemas.RecipeSchema],
+        response_model=list[schemas.RecipeSchema],
         response_model_by_alias=False)
 async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     recipes = crud.get_recipes(db, skip=skip, limit=limit)
     
-    print("ПРИНТ " , [recipe.__dict__ for recipe in recipes] )
+    
     return recipes
 
 
 @app.get("/recipes/{recipe_id}", 
-        response_model=schemas.RecipePartSchema,
+        response_model=schemas.RecipeSchema,
         response_model_by_alias=False)
 def get_recipe( recipe_id: int, db: Session = Depends(get_db)):
     recipe = crud.get_recipe(db, recipe_id=recipe_id)
-    print("ПРИНТ " , [recipe.__dict__ ] )
+    
     if recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
     return recipe
@@ -82,6 +82,12 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.post("/recipes/", response_model=schemas.RecipeCreate)
+def create_recipe(
+    recipe: schemas.RecipeCreate, db: Session = Depends(get_db)
+):
+    return crud.create_recipe(db=db, recipe=recipe)
 
 
 @app.post("/users/{user_id}/items/", response_model=schemas.Item)

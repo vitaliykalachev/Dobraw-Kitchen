@@ -37,41 +37,36 @@ class User(UserBase):
         orm_mode = True
 
 
-class Ingredient(BaseModel):
-    id: int = Field(alias='ingredient_id')
-    title: str = Field(alias='ingredient_title')
-    weight: int = Field(alias = 'weight')
-    
+class RecipePart(BaseModel):
+    recipepart_id: int = Field(alias= 'recipepart_id')
+    recipepart_title: str = Field(alias= 'recipepart_title')
+
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        
+class Ingredient(RecipePart):
+    ingredient_id: int = Field(alias='ingredient_id')
+    ingredient_title: str = Field(alias='ingredient_title')
+    weight: int = Field(alias = 'weight')
+    
+    
 
 class Recipe(BaseModel):
     id: int = Field(alias = 'recipe_id')
     title: str = Field(alias = 'recipe_title')
     description: str | None = None
     
-    
-    
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
  
 
-class RecipePart(BaseModel):
-    id: int = Field(alias= 'recipepart_id')
-    title: str = Field(alias= 'recipepart_title')
-    ingredients: List[Ingredient]
-    class Config:
-        orm_mode = True
-        allow_population_by_field_name = True
-
-
 class RecipeSchema(Recipe):
-    pass   
-class RecipePartSchema(Recipe):
-    recipepart_ingredient: List[RecipePart]
-           
+    recipepart_ingredient: List[Ingredient]   
+
+class RecipeCreate(Recipe):
+    recipepart_ingredient: List[Ingredient]          
 
     
 class IngredientSchema(Ingredient):
