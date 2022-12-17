@@ -17,7 +17,7 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def get_recipe(db: Session, recipe_id: int):
     return db.query(models.Recipe).options(
-        joinedload(models.Recipe.ingredients)).where(
+        joinedload(models.Recipe.recipepart_name)).where(
             models.Recipe.id == recipe_id).first()
 
 

@@ -63,7 +63,7 @@ class IngredientPartRecipe(Base):
     
     ingredient_title = association_proxy(target_collection='ingredient', attr='title')
     recipe_title = association_proxy(target_collection='recipe', attr='title')
-    recipepart_name = association_proxy(target_collection='recipepart', attr='name')
+    recipepart_name = association_proxy(target_collection='recipepart_recipe', attr='name')
     
 class RecipePart(Base):
     __tablename__ = "recipesparts"  

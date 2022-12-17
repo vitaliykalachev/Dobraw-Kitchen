@@ -63,14 +63,14 @@ async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(ge
     return recipes
 
 
-@app.get("/recipes/{recipe_id}",response_class=HTMLResponse, response_model=schemas.RecipeSchema,
+@app.get("/recipes/{recipe_id}", response_model=schemas.RecipeSchema,
         response_model_by_alias=False)
-def get_recipe(request: Request, recipe_id: int, db: Session = Depends(get_db)):
-    db_recipe = crud.get_recipe(db, recipe_id=recipe_id)
-    context = {"request": request, "recipe":db_recipe}
-    if db_recipe is None:
+def get_recipe( recipe_id: int, db: Session = Depends(get_db)):
+    recipe = crud.get_recipe(db, recipe_id=recipe_id)
+    
+    if recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    return templates.TemplateResponse("recipes.html", context)
+    return recipe
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)
