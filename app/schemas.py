@@ -62,6 +62,7 @@ class Recipe(BaseModel):
         allow_population_by_field_name = True
  
 
+
 class RecipeSchema(Recipe):
     recipepart_ingredient: List[Ingredient]   
 

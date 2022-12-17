@@ -67,6 +67,7 @@ async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(ge
 
 @app.get("/recipes/{recipe_id}", 
         response_model=schemas.RecipeSchema,
+
         response_model_by_alias=False)
 def get_recipe( recipe_id: int, db: Session = Depends(get_db)):
     recipe = crud.get_recipe(db, recipe_id=recipe_id)
