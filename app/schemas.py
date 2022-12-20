@@ -66,10 +66,24 @@ class Recipe(BaseModel):
 class RecipeSchema(Recipe):
     recipepart_ingredient: List[Ingredient]   
 
-class RecipeCreate(Recipe):
-    recipepart_ingredient: List[Ingredient]          
 
+class IngredientCreateIn(BaseModel):
+    recipepart_id: int = Field(alias= 'recipepart_id')
+    ingredient_id: int = Field(alias='ingredient_id')   
+    weight: int = Field(alias = 'weight') 
     
+    class Config:
+        orm_mode = True 
+class RecipeCreateIN(BaseModel):
+    title: str = Field(alias = 'recipe_title')
+    description: str | None = None
+    recipepart_ingredient: List[IngredientCreateIn]
+    
+        
+class RecipeCreateOUT(RecipeSchema):
+    pass
+
+  
 class IngredientSchema(Ingredient):
     recipes: List[Recipe]
 
