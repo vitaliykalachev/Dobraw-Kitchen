@@ -1,12 +1,13 @@
 from typing import Union, List
+import uvicorn
 from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session, joinedload
-from pydantic import BaseModel
+
 from .routers import template
-from pydantic import BaseModel
+
 from . import crud, models, schemas
 from .database import Sessionlocal, engine, get_db
 
@@ -65,16 +66,17 @@ async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(ge
     return recipes
 
 
-@app.get("/recipes/{recipe_id}", 
+@app.get("/recipes/{recipe_id}",
+        response_class= HTMLResponse,
         response_model=schemas.RecipeSchema,
-
         response_model_by_alias=False)
-def get_recipe( recipe_id: int, db: Session = Depends(get_db)):
+def get_recipe(request: Request, recipe_id: int, db: Session = Depends(get_db)):
     recipe = crud.get_recipe(db, recipe_id=recipe_id)
     
     if recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
-    return recipe
+    context = {"request": request, "recipe": recipe}
+    return templates.TemplateResponse("recipe.html", context)
 
 
 @app.get("/users/{user_id}", response_model=schemas.User)
@@ -84,9 +86,9 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
-@app.post("/recipes/", response_model=schemas.RecipeCreate)
-def create_recipe(
-    recipe: schemas.RecipeCreate, db: Session = Depends(get_db)
+@app.post("/recipes/", response_model=schemas.RecipeCreateOUT)
+async def create_recipe(
+    recipe: schemas.RecipeCreateIN, db: Session = Depends(get_db)
 ):
     return crud.create_recipe(db=db, recipe=recipe)
 
@@ -109,3 +111,7 @@ def create_item_for_user(
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
+
+
+if __name__ == '__main__':
+    uvicorn.run('main:app', reload=True)

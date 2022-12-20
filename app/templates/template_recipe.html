@@ -1,65 +1,95 @@
-
 <div x-data="{db_recipe}">
-<h1>{{recipe.title}}</h1>
+  <h1>{{recipe.title}}</h1>
 
-<div class="row">
+  <div class="row">
 
-  <div class="column">
+    <div class="column">
 
-    <h2>Рецепт </h2>
-    <hr>
-    <table>
-      <colgroup>
-        <col span="2" style="background:Khaki">
-        <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
-        <col style="background-color:LightCyan"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
-      </colgroup>
-      <tr>
-        <th>Наименование</th>
-        <th>Вес (гр)</th>
-      </tr>
-      
-        <!-- {%for ingredient in recipe.ingredients%} -->
-        <template x-for="for ingredient in db_recipes">
-          
+      <h2>Рецепт </h2>
+      <hr>
+
+      1st Number : <input type="text" id="firstNumber" /><br>
+
+      <input type="button" onClick="multiplyBy()" Value="Multiply" />
+
+
+      <div>
+      <table>
+        <colgroup>
+          <col span="2" style="background:Khaki">
+          <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
+          <col style="background-color:LightCyan"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
+        </colgroup>
         <tr>
-       
-        <td x-text="ingredient.title">{{ingredient.ingredient_title}}</td>
-        <td x-text = "ingredien.weight">{{ingredient.weight}}</td>
-      </tr>
-        <!-- {%endfor%} -->
-        </template>
-       
-        <tr>
-
-
+          <th> </th>
+          <th>Наименование</th>
+          <th>Вес 1(гр)</th>
+          <th>Вес N </th>
         </tr>
-    </table>
+        
+        {%for ingredient in recipe.recipepart_ingredient%}
+        <!-- <template x-for="for ingredient in db_recipes"> -->
 
+        <tr>
+          <td style="text-align: center;
+        background-color: white; font-size: 14px;
+        ">{{ingredient.recipepart_title }}</td>
+          <td>{{ingredient.ingredient_title}}</td>
+          <td>{{ingredient.weight}}</td>
+          <td></td>
+          
+          <div id="result"> </div>
+        </tr>
+        <!-- </template> -->
+        <tr>
+        </tr>
+        {%endfor%}
+        
+      </table>
+      </div>
+
+      
+      </form>
+
+      <script>
+        function multiplyBy() {
+          let num1 = document.getElementById("firstNumber").value;
+          let numbers = [];
+
+          {%for ingredient in recipe.recipepart_ingredient %}
+          numbers.push({{ ingredient.weight }}*num1)
+        {% endfor %};
+        var html = '<table><tr><th>Вес ' + num1 +' </th><tr>';
+        for (var i = 0; i < numbers.length; i++) {
+          html += '<td>' + numbers[i] + '</td>';
+        }
+        html += '</tr></table>'
+        console.log(numbers)
+        document.getElementById("result").innerHTML = html;
+        
+              };
+
+
+
+
+
+
+
+
+      </script>
+      <p>{{num2}}</p>
+    </div>
+    <div class="column">
+
+      <h2>Описание</h2>
+      <hr>
+      <p>
+
+        {{recipe.description}}
+      </p>
+
+    </div>
 
   </div>
-  <div class="column">
-
-    <h2>Описание</h2>
-    <hr>
-    <p>Тестовый текст для описания рецепта
-      Много текста. Описание рецепта.Тестовый текст для описания рецепта Много текста. Описание рецепта.
-      Тестовый текст для описания рецепта Много текста. Описание рецепта.Тестовый текст для описания рецепта Много
-      текста. Описание рецепта.
-      Тестовый текст для описания рецепта Много текста. Описание рецепта.Тестовый текст для описания рецепта Много
-      текста. Описание рецепта.
-      Тестовый текст для описания рецепта Много текста. Описание рецепта.Тестовый текст для описания рецепта Много
-      текста. Описание рецепта.
-      Тестовый текст для описания рецепта Много текста. Описание рецепта.Тестовый текст для описания рецепта Много
-      текста. Описание рецепта.
-      Тестовый текст для описания рецепта Много текста. Описание рецепта.Тестовый текст для описания рецепта Много
-      текста. Описание рецепта.
-      Тестовый текст для описания рецепта Много текста. Описание рецепта.Тестовый текст для описания рецепта Много
-      текста. Описание рецепта.
-    </p>
-
-  </div>
-
-</div>
 
 </div>
