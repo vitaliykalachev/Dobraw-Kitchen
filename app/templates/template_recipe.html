@@ -24,7 +24,7 @@
           <th> </th>
           <th>Наименование</th>
           <th>Вес 1(гр)</th>
-          <th>Вес N </th>
+          <th>Вес  </th>
         </tr>
         
         {%for ingredient in recipe.recipepart_ingredient%}
@@ -36,9 +36,9 @@
         ">{{ingredient.recipepart_title }}</td>
           <td>{{ingredient.ingredient_title}}</td>
           <td>{{ingredient.weight}}</td>
-          <td></td>
+          <td id="result"></td>
           
-          <div id="result"> </div>
+          
         </tr>
         <!-- </template> -->
         <tr>
@@ -64,18 +64,8 @@
           html += '<td>' + numbers[i] + '</td>';
         }
         html += '</tr></table>'
-        console.log(numbers)
         document.getElementById("result").innerHTML = html;
-        
-              };
-
-
-
-
-
-
-
-
+        };
       </script>
       <p>{{num2}}</p>
     </div>
