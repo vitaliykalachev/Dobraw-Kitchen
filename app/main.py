@@ -1,6 +1,6 @@
 from typing import Union, List
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException, Request
+from fastapi import FastAPI, Depends, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -65,14 +65,16 @@ async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(ge
     
     return recipes
 
+# @app.post("recipes/{recipe_id}")
+# async def multiply_ingredients(multiply_number_id: int = Form()):
+#     return {"multiply_number_id": multiply_number_id}
 
-@app.get("/recipes/{recipe_id}",
+@app.get("/recipes/{recipe_id}", 
         response_class= HTMLResponse,
         response_model=schemas.RecipeSchema,
         response_model_by_alias=False)
-def get_recipe(request: Request, recipe_id: int, db: Session = Depends(get_db)):
+async def get_recipe(request: Request, recipe_id: int, db: Session = Depends(get_db)):
     recipe = crud.get_recipe(db, recipe_id=recipe_id)
-    
     if recipe is None:
         raise HTTPException(status_code=404, detail="Recipe not found")
     context = {"request": request, "recipe": recipe}

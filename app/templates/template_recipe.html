@@ -1,4 +1,4 @@
-<div x-data="{db_recipe}">
+<div >
   <h1>{{recipe.title}}</h1>
 
   <div class="row">
@@ -8,13 +8,20 @@
       <h2>Рецепт </h2>
       <hr>
 
-      1st Number : <input type="text" id="firstNumber" /><br>
+      <input type="number" id="mulltiply_number_id" class="number" />
+      <br>
+      <input type="button" class="btn btn-primary" onClick="coeficent()" Value="Multiply" />
 
-      <input type="button" onClick="multiplyBy()" Value="Multiply" />
+
+      <hr>
 
 
-      <div>
-      <table>
+
+    </div>
+
+    <div>
+
+      <table >
         <colgroup>
           <col span="2" style="background:Khaki">
           <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
@@ -24,9 +31,9 @@
           <th> </th>
           <th>Наименование</th>
           <th>Вес 1(гр)</th>
-          <th>Вес  </th>
+          <th>Вес </th>
         </tr>
-        
+
         {%for ingredient in recipe.recipepart_ingredient%}
         <!-- <template x-for="for ingredient in db_recipes"> -->
 
@@ -35,51 +42,82 @@
         background-color: white; font-size: 14px;
         ">{{ingredient.recipepart_title }}</td>
           <td>{{ingredient.ingredient_title}}</td>
-          <td>{{ingredient.weight}}</td>
-          <td id="result"></td>
+
+          <td class="weight">{{ingredient.weight}}</td>
           
           
+          <td class="weight-result" >
+            {{ingredient.weight}}
+          </td>
+
+
+
         </tr>
+        {%endfor%}
         <!-- </template> -->
         <tr>
         </tr>
-        {%endfor%}
-        
+
+
       </table>
-      </div>
 
+    </div>
+
+
+    </form>
+
+
+    <script>
+      function coeficent() {
+      const coeficent = document.getElementById("mulltiply_number_id").value;
       
-      </form>
+      if (coeficent) {
+        
+        const coeficentFloat = parseFloat(coeficent);
+        const positions = Array.from(document.querySelectorAll("td.weight"));
+        
+        positions.forEach((position) => {
+          const weight = parseFloat(position.innerText);
+          console.log("weight", weight, coeficentFloat);
+          position.closest("tr").querySelector("td.weight-result").innerText =
+            weight * coeficentFloat;
+        });
+      }
+    };
+    </script>
 
-      <script>
-        function multiplyBy() {
-          let num1 = document.getElementById("firstNumber").value;
-          let numbers = [];
+    <!-- <script>
+      function multiplyBy() {
+        let num = document.getElementById("mulltiply_number_id").value;
+        let numbers = [];
 
-          {%for ingredient in recipe.recipepart_ingredient %}
-          numbers.push({{ ingredient.weight }}*num1)
-        {% endfor %};
-        var html = '<table><tr><th>Вес ' + num1 +' </th><tr>';
-        for (var i = 0; i < numbers.length; i++) {
-          html += '<td>' + numbers[i] + '</td>';
-        }
-        html += '</tr></table>'
-        document.getElementById("result").innerHTML = html;
+        {%for ingredient in recipe.recipepart_ingredient %}
+        numbers.push({{ ingredient.weight }}* num)
+      {% endfor %};
+      var html = '<table><tr><th>Вес ' + num + ' </th><tr>';
+      for (var i = 0; i < numbers.length; i++) {
+        html += '<td style="display: flex; flex-direction: column" >' + numbers[i] + '</td>';
+      }
+      html += '</tr></table>'
+      document.getElementById("result").innerHTML = html;
+      var td_elem = document.createElement('td')
+
         };
-      </script>
-      <p>{{num2}}</p>
-    </div>
-    <div class="column">
+    </script> -->
+    <p>{{num2}}</p>
+  </div>
 
-      <h2>Описание</h2>
-      <hr>
-      <p>
+  <div class="column">
 
-        {{recipe.description}}
-      </p>
+    <h2>Описание</h2>
+    <hr>
+    <p>
 
-    </div>
+      {{recipe.description}}
+    </p>
 
   </div>
+
+</div>
 
 </div>
