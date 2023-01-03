@@ -1,4 +1,4 @@
-<div >
+<div>
   <h1>{{recipe.title}}</h1>
 
   <div class="row">
@@ -8,34 +8,30 @@
       <h2>Рецепт </h2>
       <hr>
 
-      <input type="number" id="mulltiply_number_id" class="number" />
+      <input type="number" id="mulltiply_number_id" class="number" />  
       <br>
+      
       <input type="button" class="btn btn-primary" onClick="coeficent()" Value="Multiply" />
-
-
       <hr>
-
-
-
     </div>
 
     <div>
 
-      <table >
+      <table>
         <colgroup>
           <col span="2" style="background:Khaki">
           <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
-          <col style="background-color:LightCyan"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
+          <col span="1" style="background-color:LightCyan"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
+          <col span="1" style="background-color:rgb(182, 255, 143)"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
         </colgroup>
         <tr>
-          <th> </th>
+          <th></th>
           <th>Наименование</th>
           <th>Вес 1(гр)</th>
-          <th>Вес </th>
+          <th>Вес <span id="result_input"></span> </th>
         </tr>
 
         {%for ingredient in recipe.recipepart_ingredient%}
-        <!-- <template x-for="for ingredient in db_recipes"> -->
 
         <tr>
           <td style="text-align: center;
@@ -44,9 +40,9 @@
           <td>{{ingredient.ingredient_title}}</td>
 
           <td class="weight">{{ingredient.weight}}</td>
-          
-          
-          <td class="weight-result" >
+
+
+          <td class="weight-result">
             {{ingredient.weight}}
           </td>
 
@@ -54,10 +50,6 @@
 
         </tr>
         {%endfor%}
-        <!-- </template> -->
-        <tr>
-        </tr>
-
 
       </table>
 
@@ -68,43 +60,38 @@
 
 
     <script>
-      function coeficent() {
-      const coeficent = document.getElementById("mulltiply_number_id").value;
+
       
-      if (coeficent) {
+
+      input.oninput = function () {
         
-        const coeficentFloat = parseFloat(coeficent);
-        const positions = Array.from(document.querySelectorAll("td.weight"));
-        
-        positions.forEach((position) => {
-          const weight = parseFloat(position.innerText);
-          console.log("weight", weight, coeficentFloat);
-          position.closest("tr").querySelector("td.weight-result").innerText =
-            weight * coeficentFloat;
-        });
-      }
-    };
+      };
+
+      function coeficent() {
+        const coeficent = document.getElementById("mulltiply_number_id").value;
+        const input = document.getElementById('mulltiply_number_id');
+        try {
+          if (coeficent) {
+
+            const coeficentFloat = parseFloat(coeficent);
+            const positions = Array.from(document.querySelectorAll("td.weight"));
+            document.getElementById('result_input').innerHTML = input.value;
+            positions.forEach((position) => {
+              const weight = parseFloat(position.innerText);
+              
+              position.closest("tr").querySelector("td.weight-result").innerText =
+                weight * coeficentFloat;
+            });
+          }
+        }
+        catch (error) {
+          message.innerHTML = "Input is" + error;
+        }
+
+      };
     </script>
 
-    <!-- <script>
-      function multiplyBy() {
-        let num = document.getElementById("mulltiply_number_id").value;
-        let numbers = [];
 
-        {%for ingredient in recipe.recipepart_ingredient %}
-        numbers.push({{ ingredient.weight }}* num)
-      {% endfor %};
-      var html = '<table><tr><th>Вес ' + num + ' </th><tr>';
-      for (var i = 0; i < numbers.length; i++) {
-        html += '<td style="display: flex; flex-direction: column" >' + numbers[i] + '</td>';
-      }
-      html += '</tr></table>'
-      document.getElementById("result").innerHTML = html;
-      var td_elem = document.createElement('td')
-
-        };
-    </script> -->
-    <p>{{num2}}</p>
   </div>
 
   <div class="column">
