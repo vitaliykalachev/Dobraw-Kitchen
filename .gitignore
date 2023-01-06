@@ -166,3 +166,7 @@ cython_debug/
 # End of https://www.toptal.com/developers/gitignore/api/python
 
 .DS_Store
+-- SQLite.sql
+# sql_app.db
+
+.tic_tac_toe.py

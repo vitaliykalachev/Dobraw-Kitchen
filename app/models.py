@@ -31,7 +31,7 @@ class Item(Base):
 class Recipe(Base):
     __tablename__ = 'recipes'
 
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
     title = Column(String, index=True)
     description = Column(String, index=True)
     # ingredients_recipe = relationship("IngredientPartRecipe", back_populates="ingredients")
@@ -48,10 +48,10 @@ class Ingredient(Base):
 class IngredientPartRecipe(Base):
     __tablename__ = "ingredientspartsrecipes"
     
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    recipe_id = Column(Integer, ForeignKey("recipes.id"), primary_key=True)
-    ingredient_id = Column(Integer, ForeignKey("ingredients.id"), primary_key=True)
-    recipepart_id = Column(Integer, ForeignKey("recipesparts.id"), primary_key=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True, nullable=False)
+    recipe_id = Column(Integer, ForeignKey("recipes.id"))
+    ingredient_id = Column(Integer, ForeignKey("ingredients.id"))
+    recipepart_id = Column(Integer, ForeignKey("recipesparts.id"))
     weight = Column(Integer, index=True)
     recipe = relationship("Recipe", back_populates="recipepart_ingredient")
     recipepart = relationship("RecipePart", back_populates = "recipe")
