@@ -6,10 +6,10 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session, joinedload
 
-from .routers import template
+from app.routers import template
 
-from . import crud, models, schemas
-from .database import Sessionlocal, engine, get_db
+from app import crud, models, schemas
+from app.database import Sessionlocal, engine, get_db
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -51,13 +51,13 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
 
 
-@app.get("/users/", response_model=list[schemas.User])
+@app.get("/users/", response_model=List[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
 @app.get("/recipes/",
-        response_model=list[schemas.RecipeSchema],
+        response_model=List[schemas.RecipeSchema],
         response_model_by_alias=False)
 async def read_recipes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     recipes = crud.get_recipes(db, skip=skip, limit=limit)
@@ -109,11 +109,11 @@ def create_item_for_user(
 #     return crud.create_user_recipe(db=db, recipe=recipe)
 
 
-@app.get("/items/", response_model=list[schemas.Item])
+@app.get("/items/", response_model=List[schemas.Item])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
 
 
-if __name__ == '__main__':
-    uvicorn.run('main:app', reload=True)
+# if __name__ == '__main__':
+#     uvicorn.run('main:app', reload=True)

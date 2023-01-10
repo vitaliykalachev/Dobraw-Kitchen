@@ -170,3 +170,4 @@ cython_debug/
 # sql_app.db
 
 .tic_tac_toe.py
+.vercel

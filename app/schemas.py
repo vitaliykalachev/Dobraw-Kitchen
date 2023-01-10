@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 class ItemBase(BaseModel):
     title: str 
-    description: str | None = None
+    description: Union[str, None] = None
     
 
 class ItemCreate(ItemBase):
@@ -55,7 +55,7 @@ class Ingredient(RecipePart):
 class Recipe(BaseModel):
     id: int = Field(alias = 'recipe_id')
     title: str = Field(alias = 'recipe_title')
-    description: str | None = None
+    description: Union[str,None] = None
     
     class Config:
         orm_mode = True
@@ -76,7 +76,7 @@ class IngredientCreateIn(BaseModel):
         orm_mode = True 
 class RecipeCreateIN(BaseModel):
     title: str = Field(alias = 'recipe_title')
-    description: str | None = None
+    description: Union[str, None] = None
     recipepart_ingredient: List[IngredientCreateIn]
     
         
