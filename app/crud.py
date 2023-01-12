@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session, joinedload
-
+from .hashing import Hasher
 from . import models, schemas
 
 
@@ -27,17 +27,18 @@ def get_recipes(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Recipe).options(joinedload(models.Recipe.recipepart_ingredient)).offset(skip).limit(limit).all()
 
 
-def create_recipe(db:Session, recipe: schemas.RecipeCreateIN):
+def create_recipe(db: Session, recipe: schemas.RecipeCreateIN):
     recipe = models.Recipe(**recipe.dict())
     db.add(recipe)
     db.commit()
     db.refresh(recipe)
     return recipe
 
+
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password
+    hash_password = Hasher.get_password_hash(user.password)
     db_user = models.User(
-        email=user.email, hashed_password=fake_hashed_password)
+        email=user.email, hashed_password=hash_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -47,17 +48,12 @@ def create_user(db: Session, user: schemas.UserCreate):
 def get_items(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Item).offset(skip).limit(limit).all()
 
+def get_item(db: Session, item_id: int):
+    return db.query(models.Item).filter(models.Item.id == item_id).first()
 
-def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-    db_item = models.Item(**item.dict(), owner_id=user_id)
+def create_item(db: Session, item: schemas.ItemCreate, date_posted: int, user_id: int):
+    db_item = models.Item(**item.dict(),date_posted=date_posted, owner_id=user_id)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
     return db_item
-
-# def create_user_recipe(db: Session, recipe: schemas.Recipe):
-#     db_item = models.Recipe(recipe)
-#     db.add(db_item)
-#     db.commit()
-#     db.refresh(db_item)
-#     return db_item

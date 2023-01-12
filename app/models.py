@@ -1,8 +1,9 @@
 from enum import unique
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.associationproxy import association_proxy
-
+from datetime import datetime
 
 from .database import Base
 
@@ -24,6 +25,7 @@ class Item(Base):
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
+    date_posted = Column(DateTime, default= func.now())
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="items")

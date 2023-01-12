@@ -30,35 +30,5 @@ async def recipe(request: Request):
     return templates.TemplateResponse("/sweets/bakery/dzen.html", {"request": request})
     
 
-@router.get("/register")
-async def register(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
-
-    
-
-# @router.post("/register")
-# async def register(request: Request, db: Session = Depends(get_db)):
-#     form = await request.form()
-#     email = form.get("email")
-#     password = form.get("password")
-#     errors = []
-    
-#     if len(password) < 6:
-#         errors.append("Password should be > 6 character")
-#         return templates.TemplateResponse("register.html", {"request": request, "errors": errors})
-#     new_user = User(email=email, password=utils.hash(password))
-    
-#     try: 
-#         db.add(new_user)
-#         db.commit()
-#         db.refresh(new_user)
-#         return responses.RedirectResponse("/?message=Succesfully Registered", status_code=status.HTTP_302_FOUND)
-#     except IntegrityError:
-#         errors.append("Email already exists")
-#         return templates.TemplateResponse("register.html", {"request": request, "errors": errors})
-    
-# @router.get("/login")
-# async def user_login(request: Request):
-#     return templates.TemplateResponse("login.html", {"request": request})
 
 

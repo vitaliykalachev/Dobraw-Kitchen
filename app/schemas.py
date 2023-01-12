@@ -1,5 +1,5 @@
 from typing import Union, List
-
+from datetime import date, datetime, time, timedelta
 from pydantic import BaseModel, Field
 
 
@@ -15,7 +15,7 @@ class ItemCreate(ItemBase):
 class Item(ItemBase):
     id: int
     owner_id: int
-    
+    date_posted: datetime
     class Config:
         orm_mode = True
         
