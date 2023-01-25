@@ -167,7 +167,7 @@ cython_debug/
 
 .DS_Store
 -- SQLite.sql
-# sql_app.db
+sql_app.db
 
 .tic_tac_toe.py
 .vercel

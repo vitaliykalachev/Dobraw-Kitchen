@@ -52,7 +52,7 @@ def get_item(db: Session, item_id: int):
     return db.query(models.Item).filter(models.Item.id == item_id).first()
 
 def create_item(db: Session, item: schemas.ItemCreate, date_posted: int, user_id: int):
-    db_item = models.Item(**item.dict(),date_posted=date_posted, owner_id=user_id)
+    db_item = models.Item(**item.dict(), date_posted=date_posted, owner_id=user_id)
     db.add(db_item)
     db.commit()
     db.refresh(db_item)
