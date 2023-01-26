@@ -8,9 +8,9 @@
       <h2>Рецепт </h2>
       <hr>
 
-      <input type="number" id="mulltiply_number_id" class="number" />  
+      <input type="number" id="mulltiply_number_id" class="number" />
       <br>
-      
+
       <input type="button" class="btn btn-primary" onClick="coeficent()" Value="Multiply" />
       <hr>
     </div>
@@ -21,8 +21,10 @@
         <colgroup>
           <col span="2" style="background:Khaki">
           <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
-          <col span="1" style="background-color:LightCyan"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
-          <col span="1" style="background-color:rgb(182, 255, 143)"><!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
+          <col span="1" style="background-color:LightCyan">
+          <!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
+          <col span="1" style="background-color:rgb(182, 255, 143)">
+          <!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
         </colgroup>
         <tr>
           <th></th>
@@ -61,10 +63,10 @@
 
     <script>
 
-      
+
 
       input.oninput = function () {
-        
+
       };
 
       function coeficent() {
@@ -78,7 +80,7 @@
             document.getElementById('result_input').innerHTML = input.value;
             positions.forEach((position) => {
               const weight = parseFloat(position.innerText);
-              
+
               position.closest("tr").querySelector("td.weight-result").innerText =
                 weight * coeficentFloat;
             });
@@ -94,16 +96,13 @@
 
   </div>
 
-  <div class="column">
 
-    <h2>Описание</h2>
-    <hr>
-    <p>
 
-      {{recipe.description}}
-    </p>
+  <h2>Описание</h2>
+  <hr>
 
-  </div>
+
+  {{recipe.description}}
 
 </div>
 

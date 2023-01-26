@@ -121,5 +121,5 @@ async def login(response: Response, request: Request, db: Session = Depends(get_
             "login.html", {"request": request, "errors": errors}
         )
 
-# if __name__ == '__main__':
-#     uvicorn.run('main:app', reload=True)
+if __name__ == '__main__':
+    uvicorn.run('main:app', reload=True)
