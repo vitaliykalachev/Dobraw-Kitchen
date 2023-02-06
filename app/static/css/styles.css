@@ -29,7 +29,7 @@ table {
     width: 95%; /* Ширина таблицы */
     
     font-size: 19px;
-    margin-left: 10px;
+    margin-left: 3px;
    }
 
 td {
@@ -52,11 +52,11 @@ th {
     flex: 50%;
 }
 
-.img {
+/* .img {
     margin-top: 67px;
     width: 50%;
     
-}
+} */
 
 input {
     

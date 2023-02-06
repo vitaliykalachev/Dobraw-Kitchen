@@ -19,7 +19,8 @@
 
       <table>
         <colgroup>
-          <col span="2" style="background:Khaki">
+          <col span="1" style="background:rgb(255, 255, 255)">
+          <col span="1" style="background:Khaki">
           <!-- С помощью этой конструкции задаем цвет фона для первых двух столбцов таблицы-->
           <col span="1" style="background-color:LightCyan">
           <!-- Задаем цвет фона для следующего (одного) столбца таблицы-->
@@ -36,8 +37,8 @@
         {%for ingredient in recipe.recipepart_ingredient%}
 
         <tr>
-          <td style="text-align: center;
-        background-color: white; font-size: 14px;
+          <td style=" text-align: center;
+         font-size: 14px;
         ">{{ingredient.recipepart_title }}</td>
           <td>{{ingredient.ingredient_title}}</td>
 
