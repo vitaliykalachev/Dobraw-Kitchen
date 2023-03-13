@@ -4,6 +4,7 @@ from fastapi import FastAPI, Depends, HTTPException, Request, Form, Response, re
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from app.routers import template, item, user, recipe
@@ -22,6 +23,20 @@ models.Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+    "localhost:3000"
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")

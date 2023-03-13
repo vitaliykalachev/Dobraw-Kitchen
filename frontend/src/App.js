@@ -1,7 +1,12 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+
+const name = 'Иван-Царевич';
+const element = <h1>Здравствуй, {name}!</h1>;
 
 function App() {
+
+  
   return (
     <div className="App">
       <header className="App-header">
@@ -15,7 +20,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          {element}
         </a>
       </header>
     </div>
